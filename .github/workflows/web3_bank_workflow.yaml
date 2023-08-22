@@ -1,4 +1,4 @@
-name: Web3 Bank ci/cd workflow
+name: Web3 Bank ci workflow
 
 on:
   push:
