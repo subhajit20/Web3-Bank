@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  Web3 Job starter point:
+  Web3-Job-starter-point:
     runs-on: ubuntu-latest
     steps:
       - name: Checking node version
