@@ -13,8 +13,14 @@ contract CustomModifiers{
         _;
     }
 
-    modifier checkIsAccount(address acc){
-        require(acc == msg.sender,'You do not have account opened');
+    modifier checkIsAccount(Account.UserAccount memory acc){
+        require(acc.walletAddress == msg.sender,'You do not have account opened');
+        _;
+    }
+
+    modifier checkIsRecipentAccount(Account.UserAccount memory acc,address resipientAddress){
+        require(acc.walletAddress == resipientAddress,'Recipent do not have account opened');
+        require(acc.active == true,'Recipent account is not active right now');
         _;
     }
 
@@ -23,14 +29,14 @@ contract CustomModifiers{
         _;
     }
 
-    modifier _debitAmount(uint inputBalance){
-        require(inputBalance >= 10 wei,'Amount atleat 10 wei or more than that');
-        require(inputBalance <= 1 ether,'Amount should not be greater than 1 ether');
+    modifier _debitAmount{
+        require(msg.value >= 10 wei,'Amount atleat 10 wei or more than that');
+        require(msg.value <= 1 ether,'Amount should not be greater than 1 ether');
         _;
     }
 
-    modifier _checkDebitAmount(uint accountBalance, uint inputBalance){
-        require(inputBalance < accountBalance,'Input balance must be smaller than your account balance');
+    modifier _checkDebitAmount(uint accountBalance){
+        require(msg.value < accountBalance,'Input balance must be smaller than your account balance');
         _;
     }
 }

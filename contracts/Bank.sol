@@ -24,8 +24,13 @@ contract Bank is Account{
         _creadit(acc);
     }
 
-    function debitAmount(address _acc,uint _debitedAmount) public payable{
-        _debit(_acc,_debitedAmount);
+    function debitAmount(address _acc) public payable{
+        _debit(_acc);
     }
+
+    function transfer(address senderAcc,address receiverAcc) public payable{
+        __OneToOneTransfer(senderAcc,receiverAcc);
+    }
+
 
 }

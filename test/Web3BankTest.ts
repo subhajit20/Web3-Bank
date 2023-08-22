@@ -34,23 +34,39 @@ describe("Lock",async function () {
       value:wei
     });
 
-    const ownerBalanceBeforeOpeningAccount = await ethers.provider.getBalance(owner.address);
-    console.log(ownerBalanceBeforeOpeningAccount);
+    const account3 = await contract.connect(address2).openAccount({
+      value:wei
+    });
+
+    // const ownerBalanceBeforeOpeningAccount = await ethers.provider.getBalance(owner.address);
+    // console.log(ownerBalanceBeforeOpeningAccount);
 
     
-    const depositeAmount = await contract.connect(owner).creaditAmount(owner.address,{
-      value:ethers.parseEther('0.000000000000000020','wei')
+    await contract.connect(owner).creaditAmount(owner.address,{
+      value:ethers.parseEther('5','ether')
     });
+
+    await contract.connect(owner).transfer(owner.address,address2.address,{
+      value:ethers.parseEther('1','ether')
+    })
+
+    await contract.connect(address2).transfer(address2.address,owner.address,{
+      value:ethers.parseEther('1','ether')
+    })
     // console.log(getAccount)
 
-    const debitAmount = await contract.connect(owner).debitAmount(owner.address,ethers.parseEther('0.000000000000000010','wei'));
+    // const debitAmount = await contract.connect(owner).debitAmount(owner.address,ethers.parseEther('1','ether'));
+    // const debitAmount = await contract.connect(owner).debitAmount(owner.address,ethers.parseEther('1','ether'));
+   
 
-    const getAccount = await contract.connect(owner).loginAccount(owner.address);
-    console.log(getAccount);
+    const ownerAccount = await contract.connect(owner).loginAccount(owner.address);
+    const address2Account = await contract.connect(address2).loginAccount(address2.address);
+    console.log(ownerAccount);
+    console.log(address2Account);
 
 
-    const ownerBalanceAfterOpeningAccount = await ethers.provider.getBalance(owner.address);
-    console.log(ownerBalanceAfterOpeningAccount)
+    // const ownerBalanceAfterOpeningAccount = await ethers.provider.getBalance(owner.address);
+    // console.log(ownerBalanceAfterOpeningAccount)
      
       
     // const balance = await contract.connect(owner).getContractBalance();
@@ -59,7 +75,7 @@ describe("Lock",async function () {
     // const acccountBal = await contract.connect(owner).getAccountBalance();
     // // console.log(acccountBal);
 
-    console.log(wei);
+    // console.log(wei);
 
 
 
@@ -71,10 +87,10 @@ describe("Lock",async function () {
     // console.log(owner.address)
   })
 
-  // it('Account exits',async ()=>{
-  //   const {contract,owner}  = await loadFixture(deployContract);
-  //   const account2 = await contract.connect(owner).openAccount();
+  it('Transfer amount from one Account to another',async ()=>{
+    const {contract,owner}  = await loadFixture(deployContract);
+    // const account2 = await contract.connect(owner).openAccount();
 
-  //   //  console.log(account2)
-  // })
+    //  console.log(account2)
+  })
 });
