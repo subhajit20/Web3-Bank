@@ -29,7 +29,7 @@ contract Bank is Account{
     }
 
     function transfer(address senderAcc,address receiverAcc) public payable{
-        __OneToOneTransfer(senderAcc,receiverAcc);
+        _OneToOneTransfer(senderAcc,receiverAcc);
     }
 
 

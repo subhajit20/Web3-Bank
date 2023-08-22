@@ -24,11 +24,10 @@ describe("Lock",async function () {
   it('test',async ()=>{
     const [address0,address1,address2] = await ethers.getSigners();
     const {contract,owner} = await loadFixture(deployContract);
-    // const account1 = await contract.connect(owner).openAccount({
-    //   value:ethers.utils.formatEther('0.000000000000000020','wei')
-    // });
-
-    //  console.log(account1);
+  
+    /**
+     * Opening Account
+     */
     const wei = ethers.parseEther('1','ether');
     const account2 = await contract.connect(owner).openAccount({
       value:wei
@@ -41,7 +40,9 @@ describe("Lock",async function () {
     // const ownerBalanceBeforeOpeningAccount = await ethers.provider.getBalance(owner.address);
     // console.log(ownerBalanceBeforeOpeningAccount);
 
-    
+    /**
+     * Creaditing amount 
+     */
     await contract.connect(owner).creaditAmount(owner.address,{
       value:ethers.parseEther('5','ether')
     });

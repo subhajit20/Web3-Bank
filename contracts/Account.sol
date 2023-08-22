@@ -67,7 +67,7 @@ contract Account is CustomModifiers{
         return transferBalance;
     }
 
-    function _transferdAmount(address senderAcc,address receiverAcc,uint _transferBalance) internal view{
+    function _transferdAmount(address senderAcc,address receiverAcc,uint _transferBalance) internal{
         accounts[senderAcc].totalBalance = _transferBalance;
         accounts[receiverAcc].totalBalance = accounts[receiverAcc].totalBalance + msg.value;
     }
