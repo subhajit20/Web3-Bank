@@ -7,14 +7,13 @@ on:
 
 jobs:
   Web3 Job starter point:
-
     runs-on: ubuntu-latest
     steps:
       - name: Checking node version
         uses: actions/checkout@v3
 
       - name: Settingup node environment
-        uses: checkout/setup-node@v3
+        uses: actions/setup-node@v3
         with: 
         node-version: '18'
 
