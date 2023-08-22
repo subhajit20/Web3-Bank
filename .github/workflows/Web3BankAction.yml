@@ -1,0 +1,29 @@
+name: Web3 Bank ci/cd workflow
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  Web3 Job starter point:
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checking node version
+        uses: actions/checkout@v3
+
+      - name: Settingup node environment
+        uses: checkout/setup-node@v3
+        with: 
+        node-version: '18'
+
+      - name: Installing dependencies
+        run: npm ci
+      
+      - name: Started compiling the application
+        run: npx hardhat compile
+      
+      - name: Started testing the application
+        run: npx hardhat test
+
