@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
 import {Account} from './Account.sol';
+import {SmartCard} from './SmartCard.sol';
 
-contract Bank is Account{
+contract Bank is Account,SmartCard{
     string internal bankName;
     constructor(string memory name){
         bankName = name;
@@ -30,6 +31,10 @@ contract Bank is Account{
 
     function transfer(address senderAcc,address receiverAcc) public payable{
         _OneToOneTransfer(senderAcc,receiverAcc);
+    }
+
+    function applySmartCard(address accountWalletAddress) public {
+        _applyForCard(accountWalletAddress, accounts[accountWalletAddress].name);
     }
 
 

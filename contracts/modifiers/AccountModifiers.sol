@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
-import {Account} from './Account.sol';
+import {Account} from '../Account.sol';
 
-contract CustomModifiers{
+
+contract AccountModifiers{
     modifier isAccountExist(address acc) {
         require(acc != msg.sender,'Account is already exist');
         _;
@@ -39,4 +40,9 @@ contract CustomModifiers{
         require(msg.value < accountBalance,'Input balance must be smaller than your account balance');
         _;
     }
+
+    // modifier _isValidCard(address accountAddress){
+    //     require(SmartCard.Card.card[accountAddress],'Card is not valid');
+    //     _;
+    // }
 }

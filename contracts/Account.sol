@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
-import {CustomModifiers} from './CustomModifiers.sol';
+import {AccountModifiers} from './modifiers/AccountModifiers.sol';
+// import {SmartCard} from './SmartCard.sol';
 // import {Error} from './Events.sol';
 
-contract Account is CustomModifiers{
+contract Account is AccountModifiers{
     struct UserAccount{
         string bank;
-        // string name:"Subhajit";
+        string name;
         string signature;
         address walletAddress;
         uint totalBalance;
@@ -16,20 +17,17 @@ contract Account is CustomModifiers{
         // string lastDeposite;
     }
 
-    address[] public allAccounts;
+    // address[] public allAccounts;
     mapping (address => UserAccount) public accounts;
 
     function _openAccount(string memory bankName,string memory _signature) internal isAccountExist(accounts[msg.sender].walletAddress) openingDepositeAmount{
-        accounts[msg.sender] = UserAccount({
-            bank:bankName,
-            signature:_signature,
-            walletAddress:msg.sender,
-            totalBalance:msg.value,
-            active:true
-        });
+        accounts[msg.sender].bank = bankName;
+        accounts[msg.sender].signature = _signature;
+        accounts[msg.sender].walletAddress = msg.sender;
+        accounts[msg.sender].totalBalance = msg.value;
+        accounts[msg.sender].active = true;
+
         payable(address(this)).transfer(msg.value);
-        // emit Error('Congratulations! Your account has been opened');
-        allAccounts.push(accounts[msg.sender].walletAddress);
     }
 
     function _getAccount(address acc) internal view checkIsAccount(accounts[acc])  returns(UserAccount memory) {
