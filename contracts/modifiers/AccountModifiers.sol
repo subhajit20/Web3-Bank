@@ -36,12 +36,12 @@ contract AccountModifiers{
         // require(msg.value <= 5 ether,'Amount should not be greater than 1 ether');
     }
 
-    modifier _checkDebitAmount(uint accountBalance){
+    modifier _checkOneToOneDebitAmoutOfSender(uint accountBalance){
         require(msg.value < accountBalance,'Input balance must be smaller than your account balance');
         _;
     }
 
-    modifier _checkDemoDebitAmount(uint256 accountBalance, uint256 _debitBalance){
+    modifier _checkDebitAmount(uint256 accountBalance, uint256 _debitBalance){
         require(_debitBalance >= 10 wei && _debitBalance <= 5 ether,'Amount atleat 10 wei or more than that and should not be greater than 5 ether');
         require(address(this).balance > _debitBalance && _debitBalance < accountBalance,'Input balance must be smaller than your account balance');
         _;

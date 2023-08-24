@@ -50,27 +50,46 @@ contract Account is AccountModifiers{
         accounts[acc].totalBalance = balanceLeft;
     }
 
-    function _canAmountDebited(address acc,uint256 debitAmount) internal view _checkDemoDebitAmount(accounts[acc].totalBalance,debitAmount) returns(uint256){
+    function _canAmountDebited(address acc,uint256 debitAmount) internal view _checkDebitAmount(accounts[acc].totalBalance,debitAmount) returns(uint256){
         uint256 balanceLeft = accounts[acc].totalBalance - debitAmount;
 
         return balanceLeft;
     }
 
-    function _OneToOneTransfer(address senderAcc,address receiverAcc) internal checkIsRecipentAccount(accounts[receiverAcc],receiverAcc){
-        uint _transferBalance = _transferAmount(senderAcc);
-        payable(receiverAcc).transfer(msg.value);
-        _transferdAmount(senderAcc,receiverAcc,_transferBalance);
+    function _OneToOneEtherTransferMetamask(address senderAcc,address receiverAcc,uint256 _debitAmount) internal checkIsRecipentAccount(accounts[receiverAcc],receiverAcc){
+        uint _transferBalance = _transferAmountToMetaMask(senderAcc,_debitAmount);
+        payable(receiverAcc).transfer(_debitAmount);
+        payable(address(this)).transfer(address(this).balance - _debitAmount);
+        _transferdAmountMetaMask(senderAcc,_transferBalance);
     }
-
-    function _transferAmount(address senderAcc) internal view checkIsAccount(accounts[senderAcc]) _checkDebitAmount(accounts[senderAcc].totalBalance) returns(uint256){
+    function _transferAmountToMetaMask(address senderAcc,uint256 debitAmount) internal view checkIsAccount(accounts[senderAcc]) _checkDebitAmount(accounts[senderAcc].totalBalance,debitAmount) returns(uint256){
         uint transferBalance = accounts[senderAcc].totalBalance - msg.value;
 
         return transferBalance;
     }
 
-    function _transferdAmount(address senderAcc,address receiverAcc,uint _transferBalance) internal{
+    function _transferdAmountMetaMask(address senderAcc,uint _transferBalance) internal{
         accounts[senderAcc].totalBalance = _transferBalance;
-        accounts[receiverAcc].totalBalance = accounts[receiverAcc].totalBalance + msg.value;
+    }
+
+
+    function _OneToOneEtherTransferWeb3Account(address senderAcc,address receiverAcc,uint256 _debitAmount) internal checkIsRecipentAccount(accounts[receiverAcc],receiverAcc){
+        uint _transferBalance = _transferAmountToMetaWeb3Bank(senderAcc,_debitAmount);
+
+        _transferdAmountWeb3Account(senderAcc,receiverAcc,_debitAmount,_transferBalance);
+    }
+
+
+    function _transferAmountToMetaWeb3Bank(address senderAcc,uint256 debitAmount) internal view checkIsAccount(accounts[senderAcc]) _checkDebitAmount(accounts[senderAcc].totalBalance,debitAmount) returns(uint256){
+        uint transferBalance = accounts[senderAcc].totalBalance - debitAmount;
+
+        return transferBalance;
+    }
+
+
+    function _transferdAmountWeb3Account(address senderAcc,address receiver,uint _transferBalance,uint256 _leftBalance) internal{
+        accounts[senderAcc].totalBalance = _leftBalance;
+        accounts[receiver].totalBalance = accounts[receiver].totalBalance + _transferBalance;
     }
 
     function _getContractBalance() internal view returns(uint256){

@@ -41,6 +41,8 @@ describe("Lock",async function () {
     const myWeb3BankAccount = await contract.connect(owner).loginAccount(owner.address);
     console.log(myWeb3BankAccount)
 
+     expect(myWeb3BankAccount[2]).to.equal('Subhajit Ghosh');
+
     // const account3 = await contract.connect(address2).openAccount({
     //   value:wei
     // });
@@ -160,18 +162,36 @@ describe("Lock",async function () {
 
   });
 
-  it('One to One transfer',async()=>{
+  it('One to One transfer to web3 wallet',async()=>{
     const {contract,owner}  = await loadFixture(deployContract);
     const [address0,address1,address2] = await ethers.getSigners();
 
     /**
      * Opening Account
      */
-    const wei = ethers.parseEther('10','ether');
+    const wei = ethers.parseEther('13','ether');
 
     await contract.connect(address0).openAccount({
       value:wei
     });
+
+    await contract.connect(address1).openAccount({
+      value:ethers.parseEther('6','ether')
+    });
+
+    // console.log('Before Transfer',await ethers.provider.getBalance(address1.address));
+    await contract.connect(address0).OnetoOnetransferToWeb3Account(
+      address0.address,
+      address1.address,
+      ethers.parseEther('2','ether')
+    )
+
+    // console.log('Before Transfer',await ethers.provider.getBalance(address1.address));
+      const address0Web3 =  await contract.connect(address0).loginAccount(address0.address);
+      const address1Web3 =  await contract.connect(address1).loginAccount(address1.address);
+
+      console.log('Address0 balance',address0Web3);
+      console.log('Address1 balance',address1Web3);
 
   })
 });

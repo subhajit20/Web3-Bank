@@ -29,8 +29,12 @@ contract Bank is Account,SmartCard{
         _debit(_acc,_debitAmount);
     }
 
-    function transfer(address senderAcc,address receiverAcc) public payable{
-        _OneToOneTransfer(senderAcc,receiverAcc);
+    function OnetoOnetransferToMetamask(address senderAcc,address receiverAcc,uint _debitAmount) public payable{
+        _OneToOneEtherTransferMetamask(senderAcc,receiverAcc,_debitAmount);
+    }
+
+    function OnetoOnetransferToWeb3Account(address senderAcc,address receiverAcc,uint _debitAmount) public payable{
+        _OneToOneEtherTransferWeb3Account(senderAcc,receiverAcc,_debitAmount);
     }
 
     function applySmartCard(address accountWalletAddress) public {
