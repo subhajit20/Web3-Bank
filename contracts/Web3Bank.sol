@@ -11,7 +11,7 @@ contract Web3Bank is Bank{
     receive() payable external{}
 
 
-    constructor() Bank("SBI"){
+    constructor(string memory bankName) Bank(bankName){
         bankOwner = msg.sender;
     }
 

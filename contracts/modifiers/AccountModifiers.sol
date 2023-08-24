@@ -31,13 +31,19 @@ contract AccountModifiers{
     }
 
     modifier _debitAmount{
-        require(msg.value >= 10 wei,'Amount atleat 10 wei or more than that');
-        require(msg.value <= 1 ether,'Amount should not be greater than 1 ether');
+        require(msg.value >= 10 wei && msg.value <= 5 ether,'Amount atleat 10 wei or more than that and should not be greater than 5 ether');
         _;
+        // require(msg.value <= 5 ether,'Amount should not be greater than 1 ether');
     }
 
     modifier _checkDebitAmount(uint accountBalance){
         require(msg.value < accountBalance,'Input balance must be smaller than your account balance');
+        _;
+    }
+
+    modifier _checkDemoDebitAmount(uint256 accountBalance, uint256 _debitBalance){
+        require(_debitBalance >= 10 wei && _debitBalance <= 5 ether,'Amount atleat 10 wei or more than that and should not be greater than 5 ether');
+        require(address(this).balance > _debitBalance && _debitBalance < accountBalance,'Input balance must be smaller than your account balance');
         _;
     }
 

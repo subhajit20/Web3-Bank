@@ -25,8 +25,8 @@ contract Bank is Account,SmartCard{
         _creadit(acc);
     }
 
-    function debitAmount(address _acc) public payable{
-        _debit(_acc);
+    function debitAmount(address _acc,uint256 _debitAmount) public payable{
+        _debit(_acc,_debitAmount);
     }
 
     function transfer(address senderAcc,address receiverAcc) public payable{
@@ -37,5 +37,9 @@ contract Bank is Account,SmartCard{
         _applyForCard(accountWalletAddress, accounts[accountWalletAddress].name);
     }
 
+    function getContractBalance() public view returns(uint256){
+        // require(msg.sender != address(0),'Bank owner can see the amount');
+        return _getContractBalance();
+    }
 
 }

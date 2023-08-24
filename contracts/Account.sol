@@ -10,7 +10,7 @@ contract Account is AccountModifiers{
         string name;
         string signature;
         address walletAddress;
-        uint totalBalance;
+        uint256 totalBalance;
         bool active;
         // string accountOpeningDate;
         // string lastCreadit;
@@ -23,6 +23,7 @@ contract Account is AccountModifiers{
     function _openAccount(string memory bankName,string memory _signature) internal isAccountExist(accounts[msg.sender].walletAddress) openingDepositeAmount{
         accounts[msg.sender].bank = bankName;
         accounts[msg.sender].signature = _signature;
+        accounts[msg.sender].name = _signature;
         accounts[msg.sender].walletAddress = msg.sender;
         accounts[msg.sender].totalBalance = msg.value;
         accounts[msg.sender].active = true;
@@ -41,16 +42,18 @@ contract Account is AccountModifiers{
         accounts[acc].totalBalance = accounts[acc].totalBalance + msg.value;
     }
 
-    function _debit(address acc)internal checkIsAccount(accounts[acc]) _debitAmount{
-        uint debitBalance = _canAmountDebited(acc);
-        payable(acc).transfer(msg.value);
-        accounts[acc].totalBalance = debitBalance;
+    function _debit(address acc,uint256 debitAmount)internal checkIsAccount(accounts[acc]){
+        uint256 balanceLeft = _canAmountDebited(acc,debitAmount);
+
+        payable(address(this)).transfer(address(this).balance-debitAmount);
+        payable(acc).transfer(debitAmount);
+        accounts[acc].totalBalance = balanceLeft;
     }
 
-    function _canAmountDebited(address acc) internal view _checkDebitAmount(accounts[acc].totalBalance) returns(uint){
-        uint debitBalance = accounts[acc].totalBalance - msg.value;
+    function _canAmountDebited(address acc,uint256 debitAmount) internal view _checkDemoDebitAmount(accounts[acc].totalBalance,debitAmount) returns(uint256){
+        uint256 balanceLeft = accounts[acc].totalBalance - debitAmount;
 
-        return debitBalance;
+        return balanceLeft;
     }
 
     function _OneToOneTransfer(address senderAcc,address receiverAcc) internal checkIsRecipentAccount(accounts[receiverAcc],receiverAcc){
@@ -59,7 +62,7 @@ contract Account is AccountModifiers{
         _transferdAmount(senderAcc,receiverAcc,_transferBalance);
     }
 
-    function _transferAmount(address senderAcc) internal view checkIsAccount(accounts[senderAcc]) _checkDebitAmount(accounts[senderAcc].totalBalance) returns(uint){
+    function _transferAmount(address senderAcc) internal view checkIsAccount(accounts[senderAcc]) _checkDebitAmount(accounts[senderAcc].totalBalance) returns(uint256){
         uint transferBalance = accounts[senderAcc].totalBalance - msg.value;
 
         return transferBalance;
@@ -69,5 +72,8 @@ contract Account is AccountModifiers{
         accounts[senderAcc].totalBalance = _transferBalance;
         accounts[receiverAcc].totalBalance = accounts[receiverAcc].totalBalance + msg.value;
     }
-    
+
+    function _getContractBalance() internal view returns(uint256){
+        return address(this).balance;
+    }
 }
