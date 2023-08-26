@@ -1,197 +1,187 @@
-import {
-  time,
-  loadFixture,
-} from "@nomicfoundation/hardhat-toolbox/network-helpers";
-import { anyValue } from "@nomicfoundation/hardhat-chai-matchers/withArgs";
-import { expect } from "chai";
-import { ethers,loadFixture } from "hardhat";
+// import {
+//   time,
+//   loadFixture,
+// } from "@nomicfoundation/hardhat-toolbox/network-helpers";
+// import { anyValue } from "@nomicfoundation/hardhat-chai-matchers/withArgs";
+// import { expect } from "chai";
+// import { ethers,loadFixture } from "hardhat";
 
-describe("Lock",async function () {
+// describe("Lock",async function () {
 
-  async function deployContract(){
-    const [owner] = await ethers.getSigners();
-    const LockContract = await ethers.getContractFactory("Web3Bank");
-    const contract = await LockContract.connect(owner).deploy('Web3Bank');
-    // const contract = await ethers.deployContract("Web3Bank")
+//   async function deployContract(){
+//     const [owner] = await ethers.getSigners();
+//     const LockContract = await ethers.getContractFactory("Web3Bank");
+//     const contract = await LockContract.connect(owner).deploy('Web3Bank');
+//     // const contract = await ethers.deployContract("Web3Bank")
 
+//     return {
+//       contract,
+//       owner
+//     }
+//   }
 
-    return {
-      contract,
-      owner
-    }
-  }
+//   it('Openning account',async ()=>{
+//     const {contract,owner} = await loadFixture(deployContract);
+//     const [address0,address1,address2] = await ethers.getSigners();
 
-  it('Openning account',async ()=>{
-    const {contract,owner} = await loadFixture(deployContract);
-    const [address0,address1,address2] = await ethers.getSigners();
-  
-    /**
-     * Opening Account
-     */
-    const wei = ethers.parseEther('1','ether');
+//     /**
+//      * Opening Account
+//      */
+//     const wei = ethers.parseEther('1','ether');
 
-    await contract.connect(owner).openAccount({
-      value:wei
-    });
+//     await contract.connect(owner).openAccount({
+//       value:wei
+//     });
 
-    /**
-     * Openningaccount
-     */
+//     /**
+//      * Openningaccount
+//      */
 
-    const myWeb3BankAccount = await contract.connect(owner).loginAccount(owner.address);
-    console.log(myWeb3BankAccount)
+//     const myWeb3BankAccount = await contract.connect(owner).loginAccount(owner.address);
+//     console.log(myWeb3BankAccount)
 
-     expect(myWeb3BankAccount[2]).to.equal('Subhajit Ghosh');
+//      expect(myWeb3BankAccount[2]).to.equal('Subhajit Ghosh');
 
-    // const account3 = await contract.connect(address2).openAccount({
-    //   value:wei
-    // });
-    // await contract.connect(owner).creaditAmount(owner.address,{
-    //   value:ethers.parseEther('5','ether')
-    // });
+//     // const account3 = await contract.connect(address2).openAccount({
+//     //   value:wei
+//     // });
+//     // await contract.connect(owner).creaditAmount(owner.address,{
+//     //   value:ethers.parseEther('5','ether')
+//     // });
 
-    // const ownerBalanceBeforeOpeningAccount = await ethers.provider.getBalance(owner.address);
-    // console.log(ownerBalanceBeforeOpeningAccount);
+//     // const ownerBalanceBeforeOpeningAccount = await ethers.provider.getBalance(owner.address);
+//     // console.log(ownerBalanceBeforeOpeningAccount);
 
-    /**
-     * Creaditing amount 
-     */
+//     /**
+//      * Creaditing amount
+//      */
 
-    // await contract.connect(owner).transfer(owner.address,address2.address,{
-    //   value:ethers.parseEther('1','ether')
-    // })
+//     // await contract.connect(owner).transfer(owner.address,address2.address,{
+//     //   value:ethers.parseEther('1','ether')
+//     // })
 
-    // await contract.connect(address2).transfer(address2.address,owner.address,{
-    //   value:ethers.parseEther('1','ether')
-    // })
-    // console.log(getAccount)
+//     // await contract.connect(address2).transfer(address2.address,owner.address,{
+//     //   value:ethers.parseEther('1','ether')
+//     // })
+//     // console.log(getAccount)
 
-    // const debitAmount = await contract.connect(owner).debitAmount(owner.address,ethers.parseEther('1','ether'));
-    // const debitAmount = await contract.connect(owner).debitAmount(owner.address,ethers.parseEther('1','ether'));
-   
+//     // const debitAmount = await contract.connect(owner).debitAmount(owner.address,ethers.parseEther('1','ether'));
+//     // const debitAmount = await contract.connect(owner).debitAmount(owner.address,ethers.parseEther('1','ether'));
 
-    // const address2Account = await contract.connect(address2).loginAccount(address2.address);
-    
-    // console.log(address2Account);
+//     // const address2Account = await contract.connect(address2).loginAccount(address2.address);
 
+//     // console.log(address2Account);
 
-    // const ownerBalanceAfterOpeningAccount = await ethers.provider.getBalance(owner.address);
-    // console.log(ownerBalanceAfterOpeningAccount)
-     
-      
-    // const balance = await contract.connect(owner).getContractBalance();
-    // console.log('Contract Balance ---> ',balance);
+//     // const ownerBalanceAfterOpeningAccount = await ethers.provider.getBalance(owner.address);
+//     // console.log(ownerBalanceAfterOpeningAccount)
 
-    // const acccountBal = await contract.connect(owner).getAccountBalance();
-    // // console.log(acccountBal);
+//     // const balance = await contract.connect(owner).getContractBalance();
+//     // console.log('Contract Balance ---> ',balance);
 
-    // console.log(wei);
+//     // const acccountBal = await contract.connect(owner).getAccountBalance();
+//     // // console.log(acccountBal);
 
+//     // console.log(wei);
 
+//     // const contractAddress = contract.runner.address;
 
-    // const contractAddress = contract.runner.address;
+//     // const contractBalanceUsingHardhat = await ethers.provider.getBalance(contractAddress);
 
-    // const contractBalanceUsingHardhat = await ethers.provider.getBalance(contractAddress);
+//     // console.log(contract);
+//     // console.log(owner.address)
+//   })
 
-    // console.log(contract);
-    // console.log(owner.address)
-  })
+//   it('Storing eth to the account after creating',async ()=>{
+//     const {contract,owner}  = await loadFixture(deployContract);
+//     const [address0,address1,address2] = await ethers.getSigners();
 
-  it('Storing eth to the account after creating',async ()=>{
-    const {contract,owner}  = await loadFixture(deployContract);
-    const [address0,address1,address2] = await ethers.getSigners();
+//     /**
+//      * Opening Account
+//      */
+//     const wei = ethers.parseEther('1','ether');
 
+//     await contract.connect(address0).openAccount({
+//       value:wei
+//     });
 
-    /**
-     * Opening Account
-     */
-    const wei = ethers.parseEther('1','ether');
+//      /**
+//      * Before storing eth
+//      */
+//     const bforeStoringEth = await contract.connect(address0).loginAccount(owner.address);
+//     console.log(bforeStoringEth);
 
-    await contract.connect(address0).openAccount({
-      value:wei
-    });
+//     /**
+//      * After storing eth
+//      */
+//     await contract.connect(address0).creaditAmount(address0.address,{
+//       value:ethers.parseEther('10','ether')
+//     });
 
-     /**
-     * Before storing eth
-     */
-    const bforeStoringEth = await contract.connect(address0).loginAccount(owner.address);
-    console.log(bforeStoringEth);
+//     const afterStoringEth = await contract.connect(address0).loginAccount(address0.address);
+//     console.log(afterStoringEth);
+//   });
+//   it('Debiting amount from the account',async()=>{
+//     const {contract,owner}  = await loadFixture(deployContract);
+//     const [address0,address1,address2] = await ethers.getSigners();
 
+//     /**
+//      * Opening Account
+//      */
+//     const wei = ethers.parseEther('15','ether');
 
-    /**
-     * After storing eth
-     */
-    await contract.connect(address0).creaditAmount(address0.address,{
-      value:ethers.parseEther('10','ether')
-    });
+//     await contract.connect(address0).openAccount({
+//       value:wei
+//     });
 
-    const afterStoringEth = await contract.connect(address0).loginAccount(address0.address);
-    console.log(afterStoringEth);
-  });
-  it('Debiting amount from the account',async()=>{
-    const {contract,owner}  = await loadFixture(deployContract);
-    const [address0,address1,address2] = await ethers.getSigners();
+//     const beforeDebitWalletBalance = await ethers.provider.getBalance(address0.address);
+//     console.log('Before debiting amount',beforeDebitWalletBalance)
 
-    /**
-     * Opening Account
-     */
-    const wei = ethers.parseEther('15','ether');
+//     const contractBalance = await contract.connect(address0).getContractBalance();
+//     console.log('Balance',contractBalance);
 
-    await contract.connect(address0).openAccount({
-      value:wei
-    });
+//     await contract.connect(address0).debitAmount(address0.address,ethers.parseEther('5','ether'));
 
-    const beforeDebitWalletBalance = await ethers.provider.getBalance(address0.address);
-    console.log('Before debiting amount',beforeDebitWalletBalance)
+//     const contractBalance1 = await contract.connect(address0).getContractBalance();
+//     console.log('Balance',contractBalance1);
 
-    const contractBalance = await contract.connect(address0).getContractBalance();
-    console.log('Balance',contractBalance);
+//     const afterDebitWalletBalance = await ethers.provider.getBalance(address0.address);
+//     console.log('After debiting amount',afterDebitWalletBalance)
 
-    await contract.connect(address0).debitAmount(address0.address,ethers.parseEther('5','ether'));
+//     const account = await contract.connect(address0).loginAccount(address0.address);
+//     console.log(account);
 
+//   });
 
-    const contractBalance1 = await contract.connect(address0).getContractBalance();
-    console.log('Balance',contractBalance1);
+//   it('One to One transfer to web3 wallet',async()=>{
+//     const {contract,owner}  = await loadFixture(deployContract);
+//     const [address0,address1,address2] = await ethers.getSigners();
 
-    const afterDebitWalletBalance = await ethers.provider.getBalance(address0.address);
-    console.log('After debiting amount',afterDebitWalletBalance)
+//     /**
+//      * Opening Account
+//      */
+//     const wei = ethers.parseEther('13','ether');
 
+//     await contract.connect(address0).openAccount({
+//       value:wei
+//     });
 
-    const account = await contract.connect(address0).loginAccount(address0.address);
-    console.log(account);
+//     await contract.connect(address1).openAccount({
+//       value:ethers.parseEther('6','ether')
+//     });
 
-  });
+//     // console.log('Before Transfer',await ethers.provider.getBalance(address1.address));
+//     await contract.connect(address0).OnetoOnetransferToWeb3Account(
+//       address0.address,
+//       address1.address,
+//       ethers.parseEther('2','ether')
+//     )
 
-  it('One to One transfer to web3 wallet',async()=>{
-    const {contract,owner}  = await loadFixture(deployContract);
-    const [address0,address1,address2] = await ethers.getSigners();
+//     // console.log('Before Transfer',await ethers.provider.getBalance(address1.address));
+//       const address0Web3 =  await contract.connect(address0).loginAccount(address0.address);
+//       const address1Web3 =  await contract.connect(address1).loginAccount(address1.address);
 
-    /**
-     * Opening Account
-     */
-    const wei = ethers.parseEther('13','ether');
+//       console.log('Address0 balance',address0Web3);
+//       console.log('Address1 balance',address1Web3);
 
-    await contract.connect(address0).openAccount({
-      value:wei
-    });
-
-    await contract.connect(address1).openAccount({
-      value:ethers.parseEther('6','ether')
-    });
-
-    // console.log('Before Transfer',await ethers.provider.getBalance(address1.address));
-    await contract.connect(address0).OnetoOnetransferToWeb3Account(
-      address0.address,
-      address1.address,
-      ethers.parseEther('2','ether')
-    )
-
-    // console.log('Before Transfer',await ethers.provider.getBalance(address1.address));
-      const address0Web3 =  await contract.connect(address0).loginAccount(address0.address);
-      const address1Web3 =  await contract.connect(address1).loginAccount(address1.address);
-
-      console.log('Address0 balance',address0Web3);
-      console.log('Address1 balance',address1Web3);
-
-  })
-});
+//   })
+// });

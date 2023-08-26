@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
 import {AccountModifiers} from './modifiers/AccountModifiers.sol';
+import {AccountLib} from './library/Accountlib.sol';
 // import {SmartCard} from './SmartCard.sol';
 // import {Error} from './Events.sol';
 
@@ -12,6 +13,7 @@ contract Account is AccountModifiers{
         address walletAddress;
         uint256 totalBalance;
         bool active;
+        bytes8 accountSecret;
         // string accountOpeningDate;
         // string lastCreadit;
         // string lastDeposite;
@@ -19,19 +21,30 @@ contract Account is AccountModifiers{
 
     // address[] public allAccounts;
     mapping (address => UserAccount) public accounts;
+    event announce(bytes8 _accountSecret,string msg);
 
-    function _openAccount(string memory bankName,string memory _signature) internal isAccountExist(accounts[msg.sender].walletAddress) openingDepositeAmount{
-        accounts[msg.sender].bank = bankName;
-        accounts[msg.sender].signature = _signature;
-        accounts[msg.sender].name = _signature;
-        accounts[msg.sender].walletAddress = msg.sender;
-        accounts[msg.sender].totalBalance = msg.value;
-        accounts[msg.sender].active = true;
+    function _openAccount(address _walletAddress,string memory bankName,string memory _signature) internal isAccountExist(accounts[msg.sender].walletAddress) openingDepositeAmount returns(bytes8){
+        require(_walletAddress != address(0) && _walletAddress == msg.sender,'Please put a wallet address');
 
+        accounts[_walletAddress].bank = bankName;
+        accounts[_walletAddress].signature = _signature;
+        accounts[_walletAddress].name = _signature;
+        accounts[_walletAddress].walletAddress = _walletAddress;
+        accounts[_walletAddress].totalBalance = accounts[_walletAddress].totalBalance + msg.value;
+        accounts[_walletAddress].active = true;
+        accounts[_walletAddress].accountSecret = bytes8(AccountLib.accountSecretGenerator(_walletAddress, _signature));
+
+        _openingAccountDeposite();
+        emit announce(accounts[_walletAddress].accountSecret,'Your account secret, do not share with anyone');
+        
+        return accounts[_walletAddress].accountSecret;
+    }
+
+    function _openingAccountDeposite() internal {
         payable(address(this)).transfer(msg.value);
     }
 
-    function _getAccount(address acc) internal view checkIsAccount(accounts[acc])  returns(UserAccount memory) {
+    function _getAccount(address acc,bytes8 accountSecret) internal view checkAccountSecret(accounts[acc],accountSecret,acc) checkIsAccount(accounts[acc])  returns(UserAccount memory) {
         UserAccount memory myAcc =  accounts[acc];
         
         return myAcc;

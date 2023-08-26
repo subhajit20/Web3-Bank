@@ -6,17 +6,11 @@ async function main() {
 
   const lockedAmount = ethers.parseEther("0.001");
 
-  const lock = await ethers.deployContract("Web3Bank", [unlockTime], {
-    value: lockedAmount,
-  });
+  const lock = await ethers.deployContract("Web3Bank");
 
-  await lock.waitForDeployment();
-
-  console.log(
-    `Lock with ${ethers.formatEther(
-      lockedAmount
-    )}ETH and unlock timestamp ${unlockTime} deployed to ${lock.target}`
-  );
+  const contract = await lock.waitForDeployment();
+  const deployedContractAddress = contract.target;
+  console.log(deployedContractAddress);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

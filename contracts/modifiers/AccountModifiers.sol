@@ -14,6 +14,11 @@ contract AccountModifiers{
         _;
     }
 
+    modifier checkAccountSecret(Account.UserAccount memory acc,bytes8 inputAccSecret,address walletAddress){
+        require(acc.accountSecret == inputAccSecret && acc.walletAddress == walletAddress,'You have put invalid account secret and walletAddress');
+        _;
+    }
+
     modifier checkIsAccount(Account.UserAccount memory acc){
         require(acc.walletAddress == msg.sender,'You do not have account opened');
         _;

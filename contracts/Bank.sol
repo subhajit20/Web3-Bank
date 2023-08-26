@@ -9,14 +9,17 @@ contract Bank is Account,SmartCard{
         bankName = name;
     }
 
-    function openAccount() public payable{
+    function openAccount(address _walletAddress) public payable returns(uint256){
         string memory _bankName = bankName;
-        _openAccount(_bankName,'Subhajit Ghosh');
+        bytes8 accountSecret = _openAccount(_walletAddress,_bankName,'Subhajit Ghosh');
+
+        // return accountSecret;
+        return 2;
     }
 
 
-    function loginAccount(address acc) public view returns(UserAccount memory){
-        UserAccount memory _myAcc = _getAccount(acc);
+    function loginAccount(address _acc,bytes8 _accountSecret) public view returns(UserAccount memory){
+        UserAccount memory _myAcc = _getAccount(_acc,_accountSecret);
 
         return _myAcc;
     }
