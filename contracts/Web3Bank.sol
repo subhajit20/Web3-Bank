@@ -8,12 +8,14 @@ import {Bank} from './Bank.sol';
 contract Web3Bank is Bank{
     string public name;
     address public bankOwner;
-    receive() payable external{}
-
 
     constructor(string memory bankName) Bank(bankName){
         bankOwner = msg.sender;
     }
+    
+    receive() payable external{}
+    fallback() external payable {}
+
 
     function getBankName() public view returns (string memory) {
         string memory nameOfBank = bankName;

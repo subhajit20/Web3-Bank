@@ -5,21 +5,25 @@ import {SmartCard} from './SmartCard.sol';
 
 contract Bank is Account,SmartCard{
     string internal bankName;
+    
     constructor(string memory name){
         bankName = name;
     }
 
-    function openAccount(address _walletAddress) public payable returns(uint256){
+    function openAccount(address _walletAddress) public payable{
         string memory _bankName = bankName;
-        bytes8 accountSecret = _openAccount(_walletAddress,_bankName,'Subhajit Ghosh');
-
-        // return accountSecret;
-        return 2;
+        _openAccount(_walletAddress,_bankName,'Subhajit Ghosh');
     }
 
 
     function loginAccount(address _acc,bytes8 _accountSecret) public view returns(UserAccount memory){
         UserAccount memory _myAcc = _getAccount(_acc,_accountSecret);
+
+        return _myAcc;
+    }
+
+    function getAccountByAddress(address _acc) public view returns(UserAccount memory){
+        UserAccount memory _myAcc = _getAccountbyAddress(_acc);
 
         return _myAcc;
     }

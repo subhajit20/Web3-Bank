@@ -18,12 +18,12 @@ contract Account is AccountModifiers{
         // string lastCreadit;
         // string lastDeposite;
     }
-
     // address[] public allAccounts;
     mapping (address => UserAccount) public accounts;
     event announce(bytes8 _accountSecret,string msg);
+    
 
-    function _openAccount(address _walletAddress,string memory bankName,string memory _signature) internal isAccountExist(accounts[msg.sender].walletAddress) openingDepositeAmount returns(bytes8){
+    function _openAccount(address _walletAddress,string memory bankName,string memory _signature) internal isAccountExist(accounts[_walletAddress].walletAddress) openingDepositeAmount returns(bytes8){
         require(_walletAddress != address(0) && _walletAddress == msg.sender,'Please put a wallet address');
 
         accounts[_walletAddress].bank = bankName;
@@ -45,6 +45,12 @@ contract Account is AccountModifiers{
     }
 
     function _getAccount(address acc,bytes8 accountSecret) internal view checkAccountSecret(accounts[acc],accountSecret,acc) checkIsAccount(accounts[acc])  returns(UserAccount memory) {
+        UserAccount memory myAcc =  accounts[acc];
+        
+        return myAcc;
+    }
+
+    function _getAccountbyAddress(address acc) internal view returns(UserAccount memory) {
         UserAccount memory myAcc =  accounts[acc];
         
         return myAcc;
